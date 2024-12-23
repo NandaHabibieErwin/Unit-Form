@@ -24,7 +24,11 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+        onFinish: () =>
+    {
+        form.reset('password');
+        window.location.href = route('dashboard');
+    },
     });
 };
 </script>

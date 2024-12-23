@@ -13,6 +13,29 @@ const page = usePage();
 const IsAdmin = computed(() => page.props.auth.user.name === 'admin');
 const showingNavigationDropdown = ref(false);
 
+const submitLogout = () => {
+    const form = new FormData();
+    form.append('_method', 'POST');
+
+    // Get CSRF token from meta tag
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+    fetch(route('logout'), {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-Token': csrfToken,
+        },
+        body: form,
+    })
+    .then(() => {
+        window.location.href = route('login');
+    })
+    .catch((error) => {
+        console.error('Logout failed', error);
+    });
+};
+
 </script>
 
 <template>
@@ -70,9 +93,18 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink v-if="IsAdmin" :href="route('profile.edit')">
                                             Profile
                                         </DropdownLink>
+                                        <!--
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
-                                        </DropdownLink>
+                                        </DropdownLink>-->
+
+                                            <form method="POST" action="{{ route('logout') }}" ref="logoutForm">
+                                              <button class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out" type="button" @click="submitLogout">
+                                                Log Out
+                                              </button>
+                                            </form>
+
+
                                     </template>
                                 </Dropdown>
                             </div>
@@ -133,9 +165,15 @@ const showingNavigationDropdown = ref(false);
                             <ResponsiveNavLink v-if="IsAdmin" :href="route('profile.edit')">
                                 Profile
                             </ResponsiveNavLink>
+                            <!--
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
-                            </ResponsiveNavLink>
+                            </ResponsiveNavLink>-->
+                            <form method="POST" action="{{ route('logout') }}" ref="logoutForm">
+                                <button class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out" type="button" @click="submitLogout">
+                                  Log Out
+                                </button>
+                              </form>
                         </div>
                     </div>
                 </div>

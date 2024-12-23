@@ -1,6 +1,6 @@
 <template>
 
-    <div class="ml-20 mr-20">
+    <div class="">
     <FormKit type="form" :actions="false" @submit="handleSubmit">
         <FormKit type="multi-step" tab-style="tab">
             <FormKit type="step" name="Personal Detail">

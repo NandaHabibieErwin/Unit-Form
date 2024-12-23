@@ -95,7 +95,7 @@ console.log(props.data);
                     <!-- Header with Icon -->
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-2xl font-bold flex items-center">
-                            <span class="ml-4">Search Reports</span>
+                            <span class="ml-4 dark:text-white text-black">Search Reports</span>
                         </h3>
                         <button
                             @click="isModalOpen = false"
