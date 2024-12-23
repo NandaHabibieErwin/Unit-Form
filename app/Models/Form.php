@@ -31,6 +31,8 @@ class Form extends Model
         'masalah',
         'kondisi',
         'layak',
+        'FotoKiri',
+        'FotoKanan',
     ];
 
 }

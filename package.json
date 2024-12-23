@@ -14,6 +14,7 @@
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.31",
+        "sass-embedded": "^1.83.0",
         "tailwindcss": "^3.2.1",
         "vite": "^6.0",
         "vue": "^3.4.0"
@@ -23,6 +24,9 @@
         "@formkit/icons": "^1.6.9",
         "@formkit/themes": "^1.6.9",
         "@formkit/vue": "^1.6.9",
-        "bottom-navigation-vue": "^3.3.5"
+        "bottom-navigation-vue": "^3.3.5",
+        "html2pdf": "^0.0.11",
+        "vue-html2pdf": "^1.8.0",
+        "vue3-html2pdf": "^1.1.2"
     }
 }

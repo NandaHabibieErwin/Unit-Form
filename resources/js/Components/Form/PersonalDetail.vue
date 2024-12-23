@@ -55,6 +55,9 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
   mask="25 KM"
   label="Kilometer Service"
   prefix-icon="da"
-  validation="required"
+  help="Boleh dikosongkan"
 />
   </template>
+
+  <style>
+</style>

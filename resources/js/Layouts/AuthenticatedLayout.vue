@@ -1,20 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+
 import UTLogo from '@/Components/UTLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
-
+import { usePage } from '@inertiajs/vue3';
+const page = usePage();
+const IsAdmin = computed(() => page.props.auth.user.name === 'admin');
 const showingNavigationDropdown = ref(false);
+
 </script>
 
 <template>
     <div>
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav class="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
+            <nav class="border-b border-gray-100 bg-gradient-to-r from-yellow-400 to-yellow-400">
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -23,21 +27,23 @@ const showingNavigationDropdown = ref(false);
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
                                 <UTLogo
-                                    class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                                    class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-800" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div v-if="!IsAdmin" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Form
                                 </NavLink>
                             </div>
+
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('report')" :active="route().current('report')">
                                     Report
                                 </NavLink>
                             </div>
+
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
@@ -61,7 +67,7 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')">
+                                        <DropdownLink v-if="IsAdmin" :href="route('profile.edit')">
                                             Profile
                                         </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
@@ -104,8 +110,11 @@ const showingNavigationDropdown = ref(false);
                     hidden: !showingNavigationDropdown,
                 }" class="sm:hidden">
                     <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <ResponsiveNavLink v-if="!IsAdmin" :href="route('dashboard')" :active="route().current('dashboard')">
+                            Form
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('report')" :active="route().current('report')">
+                            Report
                         </ResponsiveNavLink>
                     </div>
 
@@ -121,7 +130,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">
+                            <ResponsiveNavLink v-if="IsAdmin" :href="route('profile.edit')">
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">

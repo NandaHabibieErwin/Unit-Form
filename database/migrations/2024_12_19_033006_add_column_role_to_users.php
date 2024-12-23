@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('data', function (Blueprint $table) {
-            $table->enum('Head',["Irlang Haristo", "Sugeng Wahyudi"]);
-            $table->enum('status', ["Pending", "Approved", "Rejected"])->default("Pending");
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('status',['admin', 'user'])->default('user');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

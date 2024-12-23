@@ -28,7 +28,7 @@ return new class extends Migration
             $table->enum('obat',["Tidak", "Iya"]);
             $table->enum('masalah',["Tidak", "Iya"]);
             $table->enum('kondisi',["Tidak", "Iya"]);
-            $table->enum('layak',["Tidak Layak", "Layak"]);
+            $table->enum('layak',["Tidak Layak", "Layak", "Layak dengan catatan"]);
         });
     }
 

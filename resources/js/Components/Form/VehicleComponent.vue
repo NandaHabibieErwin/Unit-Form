@@ -129,7 +129,7 @@ const emit = defineEmits([
     </div>
     <!-- Kontrol & Panel -->
     <div class="border p-4 rounded shadow">
-        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">AA</span>
       <FormKit
         type="radio"
         label="Kontrol & Panel"

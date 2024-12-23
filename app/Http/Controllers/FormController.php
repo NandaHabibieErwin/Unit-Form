@@ -37,18 +37,57 @@ class FormController extends Controller
             'layak' => 'required',
             'Vehicle' => 'required',
             'Health' => 'required',
+            'FotoKiri' => 'required',
+            'FotoKanan' => 'required',
         ]);
 
-        $Vehicle = $validated['Vehicle'];
-        $Health = $validated['Health'];
+        $Vehicle = json_decode($validated['Vehicle'], true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['error' => 'Invalid JSON format in Vehicle data.'], 400);
+        }
 
-        $Data = array_merge($validated, $Vehicle, $Health);
+        $Health = json_decode($validated['Health'], true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['error' => 'Invalid JSON format in Health data.'], 400);
+        }
 
-        $enroll = Form::create($Data);
 
-        $this->InsertIntoSheet($Data);
 
-        return response()->json(['success' => true, 'enroll' => $enroll], 201);
+        $fotoKiriPaths = [];
+        foreach ($request->FotoKiri as $foto) {
+            if (isset($foto['file']) && $foto['file'] instanceof \Illuminate\Http\UploadedFile) {
+                $fotoKiriPaths[] = $foto['file']->store('uploads', 'public');
+            } else {
+                return response()->json(['error' => 'Invalid FotoKiri file format.'], 400);
+            }
+        }
+
+        $fotoKananPaths = [];
+        foreach ($request->FotoKanan as $foto) {
+            if (isset($foto['file']) && $foto['file'] instanceof \Illuminate\Http\UploadedFile) {
+                $fotoKananPaths[] = $foto['file']->store('uploads', 'public');
+            } else {
+                return response()->json(['error' => 'Invalid FotoKanan file format.'], 400);
+            }
+        }
+
+
+
+    $Data = array_merge(
+        $validated,
+        $Vehicle,
+        $Health,
+        [
+            'FotoKiri' => json_encode($fotoKiriPaths),
+            'FotoKanan' => json_encode($fotoKananPaths),
+        ]
+    );
+
+        $upload = Form::create($Data);
+
+       $this->InsertIntoSheet($Data);
+
+        return response()->json(['success' => true, 'upload' => $upload], 201);
     }
 
     public function InsertIntoSheet($data)

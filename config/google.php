@@ -54,7 +54,7 @@ return [
          * Path to service account json file. You can also pass the credentials as an array
          * instead of a file path.
          */
-        'file' => storage_path('sheet-api-445007-2e9a569b3ec0.json'),
+        'file' => storage_path('sheet-api-445007-0ace3215ce63.json'),
     ],
 
     /*
