@@ -221,9 +221,9 @@ FotoKanan.value.forEach((item, index) => {
             return number;
         }
 
-        const Response = "Saya sudah mengisi form disini https://127.0.0.1:8000/report/view/" + id;
-        encodeURIComponent(Response);
-        const link = `https://api.whatsapp.com/send?phone=${ChangeFormat(Nomor_Telepon.value)}&text=${Response}`;
+        const Response = "Saya sudah mengisi form disini https://p2hpkb.site/report/view/" + id;
+        const EncodedResponse = encodeURIComponent(Response);
+        const link = `https://api.whatsapp.com/send?phone=${ChangeFormat(Nomor_Telepon.value)}&text=${EncodedResponse}`;
         /*Disable during debug*/
           window.open(link);
     } catch (error) {
