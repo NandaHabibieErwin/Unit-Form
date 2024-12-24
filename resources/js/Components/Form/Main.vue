@@ -1,49 +1,51 @@
 <template>
 
     <div class="">
-    <FormKit type="form" :actions="false" @submit="handleSubmit">
-        <FormKit type="multi-step" tab-style="tab">
-            <FormKit type="step" name="Personal Detail">
-                <!-- component for example brevity. -->
-                <PersonalDetail v-model:Nama="Nama" v-model:Tanggal="Tanggal" v-model:NoUnit="NoUnit" v-model:KM="KM"
-                    v-model:KMService="KMService" />
-            </FormKit>
+        <FormKit type="form" :actions="false" @submit="handleSubmit">
+            <FormKit type="multi-step" tab-style="tab">
+                <FormKit type="step" name="Personal Detail">
+                    <!-- component for example brevity. -->
+                    <PersonalDetail v-model:Nama="Nama" v-model:Tanggal="Tanggal" v-model:NoUnit="NoUnit"
+                        v-model:KM="KM" v-model:KMService="KMService" />
+                </FormKit>
 
-            <FormKit type="step" name="Vehicle">
-                <!-- component for example brevity. -->
-                <VehicleComponent v-model:Ban_Velg_Baut="Vehicle.Ban_Velg_Baut" v-model:Oli_Mesin="Vehicle.Oli_Mesin"
-                    v-model:Air_Radiator="Vehicle.Air_Radiator" v-model:APAR="Vehicle.APAR"
-                    v-model:Sabuk_Pengaman="Vehicle.Sabuk_Pengaman" v-model:Spion="Vehicle.Spion"
-                    v-model:Klakson_Alarm="Vehicle.Klakson_Alarm" v-model:Kontrol_Panel="Vehicle.Kontrol_Panel"
-                    v-model:Brake_System="Vehicle.Brake_System" v-model:Steering_System="Vehicle.Steering_System"
-                    v-model:Lampu="Vehicle.Lampu" v-model:Battery="Vehicle.Battery" />
-            </FormKit>
+                <FormKit type="step" name="Vehicle">
+                    <!-- component for example brevity. -->
+                    <VehicleComponent v-model:Ban_Velg_Baut="Vehicle.Ban_Velg_Baut"
+                        v-model:Oli_Mesin="Vehicle.Oli_Mesin" v-model:Air_Radiator="Vehicle.Air_Radiator"
+                        v-model:APAR="Vehicle.APAR" v-model:Sabuk_Pengaman="Vehicle.Sabuk_Pengaman"
+                        v-model:Spion="Vehicle.Spion" v-model:Klakson_Alarm="Vehicle.Klakson_Alarm"
+                        v-model:Kontrol_Panel="Vehicle.Kontrol_Panel" v-model:Brake_System="Vehicle.Brake_System"
+                        v-model:Steering_System="Vehicle.Steering_System" v-model:Lampu="Vehicle.Lampu"
+                        v-model:Battery="Vehicle.Battery" />
+                </FormKit>
 
-            <FormKit type="step" name="Health Check">
-                <!-- component for example brevity. -->
-                <DriverHealth v-model:istirahat="Health.istirahat" v-model:obat="Health.obat"
-                    v-model:masalah="Health.masalah" v-model:kondisi="Health.kondisi" />
-            </FormKit>
+                <FormKit type="step" name="Health Check">
+                    <!-- component for example brevity. -->
+                    <DriverHealth v-model:istirahat="Health.istirahat" v-model:obat="Health.obat"
+                        v-model:masalah="Health.masalah" v-model:kondisi="Health.kondisi" />
+                </FormKit>
 
 
-            <FormKit type="step" name="Photo">
-                <!-- component for example brevity. -->
-                <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan" />
-            </FormKit>
+                <FormKit type="step" name="Photo">
+                    <!-- component for example brevity. -->
+                    <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan" />
+                </FormKit>
 
-            <FormKit type="step" name="Summary">
-                <!-- component for example brevity. -->
-                <UnitSummary v-model:Head="Head" :Nama="Nama" :Tanggal="Tanggal" :NoUnit="NoUnit" :KM="KM"
-                    :KMService="KMService" :Head="Head" :Vehicle="Vehicle" :Health="Health" :Kelayakan="kelayakan" />
+                <FormKit type="step" name="Summary">
+                    <!-- component for example brevity. -->
+                    <UnitSummary v-model:Head="Head" :Nama="Nama" :Tanggal="Tanggal" :NoUnit="NoUnit" :KM="KM"
+                        :KMService="KMService" :Head="Head" :Vehicle="Vehicle" :Health="Health"
+                        :Kelayakan="kelayakan" />
 
                     <template #stepNext>
 
-                <FormKit type="submit" :disabled="isLoading" />
-            </template>
+                        <FormKit type="submit" :disabled="isLoading" />
+                    </template>
+                </FormKit>
             </FormKit>
         </FormKit>
-    </FormKit>
-</div>
+    </div>
     <div v-if="OpenModal" id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -127,19 +129,20 @@ const Health = ref({
 const CheckKelayakan = () => {
     const { Oli_Mesin, Brake_System, Steering_System,
         Kontrol_Panel, Ban_Velg_Baut, Air_Radiator, APAR, Sabuk_Pengaman, Spion, Klakson_Alarm,
-    Lampu, Battery } = Vehicle.value;
-    if(Oli_Mesin === 'Buruk' || Brake_System === 'Buruk' || Steering_System === 'Buruk')
-{
-    return 'Tidak Layak';
-}
+        Lampu, Battery } = Vehicle.value;
 
-if(Ban_Velg_Baut === 'Buruk' ||
-Air_Radiator === 'Buruk' || APAR === 'Buruk' || Sabuk_Pengaman === 'Buruk' || Spion === 'Buruk' ||
-Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || Battery === 'Buruk') {
-    return 'Layak dengan catatan'
-}
+        const { istirahat, obat, masalah, kondisi } = Health.value;
+    if (Oli_Mesin === 'Buruk' || Brake_System === 'Buruk' || Steering_System === 'Buruk' || istirahat === 'Kurang dari 6 jam (Tidak diperbolehkan mengemudi)') {
+        return 'Tidak Layak';
+    }
 
-        return 'Layak'
+    if (Ban_Velg_Baut === 'Buruk' ||
+        Air_Radiator === 'Buruk' || APAR === 'Buruk' || Sabuk_Pengaman === 'Buruk' || Spion === 'Buruk' ||
+        Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Tidak' || masalah === 'Tidak'|| kondisi === 'Iya') {
+        return 'Layak dengan catatan'
+    }
+
+    return 'Layak'
 };
 const kelayakan = computed(() => CheckKelayakan());
 
@@ -152,48 +155,39 @@ const handleSubmit = async () => {
     try {
         console.log("Vehicle: " + JSON.stringify(Vehicle.value, null, 2));
         console.log("Health: " + JSON.stringify(Health.value, null, 2));
-        if (Head.value === "Irlang Haristo")
-        {
+        if (Head.value === "Irlang Haristo") {
             Nomor_Telepon.value = "6281382831692";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Sariyanto")
-        {
+        if (Head.value === "Sariyanto") {
             Nomor_Telepon.value = "6281275897313";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Edy Saputra")
-        {
+        if (Head.value === "Edy Saputra") {
             Nomor_Telepon.value = "6281357201522";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Efrem Togu Adi Suryo")
-        {
+        if (Head.value === "Efrem Togu Adi Suryo") {
             Nomor_Telepon.value = "6281280968125";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Stephen Boenardi")
-        {
+        if (Head.value === "Stephen Boenardi") {
             Nomor_Telepon.value = "62811882269";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Aprio Nugroho")
-        {
+        if (Head.value === "Aprio Nugroho") {
             Nomor_Telepon.value = "628117122363";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Waston")
-        {
+        if (Head.value === "Waston") {
             Nomor_Telepon.value = "6282122328985";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Dani Rogusty")
-        {
+        if (Head.value === "Dani Rogusty") {
             Nomor_Telepon.value = "62811783471";
             console.log(Nomor_Telepon.value);
         }
-        if (Head.value === "Nanda")
-        {
+        if (Head.value === "Nanda") {
             Nomor_Telepon.value = "6282385417804";
             console.log(Nomor_Telepon.value);
         }
@@ -211,47 +205,47 @@ const SubmitData = async () => {
 
         const body = new FormData();
 
-body.append('Nama', Nama.value);
-body.append('Tanggal_Data', Tanggal.value);
-body.append('Nomor_Unit', NoUnit.value);
-body.append('Kilo_Meter', KM.value);
-body.append('KiloMeter_Service', KMService.value);
-body.append('Head', Head.value);
-body.append('layak', kelayakan.value);
+        body.append('Nama', Nama.value);
+        body.append('Tanggal_Data', Tanggal.value);
+        body.append('Nomor_Unit', NoUnit.value);
+        body.append('Kilo_Meter', KM.value);
+        body.append('KiloMeter_Service', KMService.value);
+        body.append('Head', Head.value);
+        body.append('layak', kelayakan.value);
 
 
-body.append('Vehicle', JSON.stringify(Vehicle.value));
-body.append('Health', JSON.stringify(Health.value));
+        body.append('Vehicle', JSON.stringify(Vehicle.value));
+        body.append('Health', JSON.stringify(Health.value));
 
-FotoKiri.value.forEach((item, index) => {
-    body.append(`FotoKiri[${index}][name]`, item.name);
-    body.append(`FotoKiri[${index}][file]`, item.file);
-});
+        FotoKiri.value.forEach((item, index) => {
+            body.append(`FotoKiri[${index}][name]`, item.name);
+            body.append(`FotoKiri[${index}][file]`, item.file);
+        });
 
-FotoKanan.value.forEach((item, index) => {
-    body.append(`FotoKanan[${index}][name]`, item.name);
-    body.append(`FotoKanan[${index}][file]`, item.file);
-});
-/*
-        const formData = {
-            Nama: Nama.value,
-            Tanggal_Data: Tanggal.value,
-            Nomor_Unit: NoUnit.value,
-            Kilo_Meter: KM.value,
-            KiloMeter_Service: KMService.value,
-            Head: Head.value,
-            Vehicle: Vehicle.value,
-            Health: Health.value,
-            layak: kelayakan.value,
-            FotoKiri: FotoKiri.value.map(item => ({
-                name: item.name,
-                file: item.file
-            })),
-            FotoKanan: FotoKanan.value.map(item => ({
-                name: item.name,
-                file: item.file
-            }))
-        };*/
+        FotoKanan.value.forEach((item, index) => {
+            body.append(`FotoKanan[${index}][name]`, item.name);
+            body.append(`FotoKanan[${index}][file]`, item.file);
+        });
+        /*
+                const formData = {
+                    Nama: Nama.value,
+                    Tanggal_Data: Tanggal.value,
+                    Nomor_Unit: NoUnit.value,
+                    Kilo_Meter: KM.value,
+                    KiloMeter_Service: KMService.value,
+                    Head: Head.value,
+                    Vehicle: Vehicle.value,
+                    Health: Health.value,
+                    layak: kelayakan.value,
+                    FotoKiri: FotoKiri.value.map(item => ({
+                        name: item.name,
+                        file: item.file
+                    })),
+                    FotoKanan: FotoKanan.value.map(item => ({
+                        name: item.name,
+                        file: item.file
+                    }))
+                };*/
         console.log(body.FotoKiri);
         console.log(body.FotoKanan);
         const response = await UploadForm(body);
@@ -280,7 +274,7 @@ FotoKanan.value.forEach((item, index) => {
         const EncodedResponse = encodeURIComponent(Response);
         const link = `https://api.whatsapp.com/send?phone=${ChangeFormat(Nomor_Telepon.value)}&text=${EncodedResponse}`;
         /*Disable during debug*/
-          window.open(link);
+        window.open(link);
     } catch (error) {
         console.error('Error uploading form:', error);
     } finally {
@@ -289,5 +283,3 @@ FotoKanan.value.forEach((item, index) => {
 }
 
 </script>
-
-
