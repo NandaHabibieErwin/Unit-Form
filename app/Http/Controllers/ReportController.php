@@ -58,10 +58,10 @@ class ReportController extends Controller
     public function ManageReport($id, $status)
     {
         $FormData = Form::findOrFail($id);
-        if($status == true){
+        if($status == "Approved"){
         $FormData->status = "Approved";
     }
-    else if ($status == false)
+    else if ($status == "Rejected")
     {
         $FormData->status = "Rejected";
     }
