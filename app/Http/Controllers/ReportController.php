@@ -12,9 +12,8 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $FormData = Form::all();
-        //$FormData = Form::whereDate('created_at', Carbon::now())->orderBy('created_at', 'desc')->get();
-        //dd($FormData);
+        $FormData = Form::orderBy('created_at', 'desc')->get();
+
         return Inertia::render('Report', [
             'user' => auth()->user(),
             'data' => $FormData,
@@ -41,7 +40,7 @@ class ReportController extends Controller
     if ($request->filled('kelayakan')) {
         $query->where('Layak', $request->kelayakan);
     }
-
+        $query->orderBy('created_at', 'desc');
     return response()->json($query->Paginate(10));
 }
 

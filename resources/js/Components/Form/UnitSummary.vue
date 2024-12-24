@@ -1,5 +1,9 @@
 <script setup>
-import {defineProps, defineEmits } from 'vue'
+import {defineProps, defineEmits, ref, onMounted } from 'vue'
+import {FetchContact, UpdateContact,DeleteContact} from '@/api.js';
+
+const Contact = ref([]);
+
 const props = defineProps({
     Nama: String,
   Tanggal: String,
@@ -11,6 +15,18 @@ const props = defineProps({
   Head: String,
   Kelayakan: String,
 })
+
+const fetchContacts = async () => {
+    try {
+        Contact.value = await FetchContact();
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+    }
+};
+
+onMounted(fetchContacts());
+
+
 const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'update:KM', 'update:KMService','update:Head'])
 
 </script>
@@ -86,6 +102,6 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
     label="SPV/Dept Head/Leader"
     placeholder="Pilih"
     validation="required"
-    :options="['Irlang Haristo', 'Sugeng Wahyudi']"
+    :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo','Stephen Boenardi','Aprio Nugroho','Waston','Dani Rogusty', 'Nanda']"
   />
   </template>

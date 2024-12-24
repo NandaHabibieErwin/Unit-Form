@@ -38,7 +38,7 @@
 
                     <template #stepNext>
 
-                <FormKit type="submit" />
+                <FormKit type="submit" :disabled="isLoading" />
             </template>
             </FormKit>
         </FormKit>
@@ -71,9 +71,10 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button v-on:click="SubmitData" data-modal-hide="static-modal" type="button"
+                    <button :disabled="isLoading" v-on:click="SubmitData" data-modal-hide="static-modal" type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Send</button>
+                        <span v-if="isLoading">Uploading...</span>
+                        <span v-else>Send</span></button>
                     <button v-on:click="OpenModal = false" data-modal-hide="static-modal" type="button"
                         class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
                 </div>
@@ -92,7 +93,7 @@ import VehicleComponent from '@/Components/Form/VehicleComponent.vue'
 import { UploadForm } from '@/api.js';
 import { defineProps, defineEmits, computed } from 'vue'
 
-
+const isLoading = ref(false);
 const Nama = ref('')
 const Tanggal = ref('')
 const NoUnit = ref('')
@@ -151,7 +152,53 @@ const handleSubmit = async () => {
     try {
         console.log("Vehicle: " + JSON.stringify(Vehicle.value, null, 2));
         console.log("Health: " + JSON.stringify(Health.value, null, 2));
-        OpenModal.value = true;
+        if (Head.value === "Irlang Haristo")
+        {
+            Nomor_Telepon.value = "6281382831692";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Sariyanto")
+        {
+            Nomor_Telepon.value = "6281275897313";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Edy Saputra")
+        {
+            Nomor_Telepon.value = "6281357201522";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Efrem Togu Adi Suryo")
+        {
+            Nomor_Telepon.value = "6281280968125";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Stephen Boenardi")
+        {
+            Nomor_Telepon.value = "62811882269";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Aprio Nugroho")
+        {
+            Nomor_Telepon.value = "628117122363";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Waston")
+        {
+            Nomor_Telepon.value = "6282122328985";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Dani Rogusty")
+        {
+            Nomor_Telepon.value = "62811783471";
+            console.log(Nomor_Telepon.value);
+        }
+        if (Head.value === "Nanda")
+        {
+            Nomor_Telepon.value = "6282385417804";
+            console.log(Nomor_Telepon.value);
+        }
+        SubmitData();
+        //OpenModal.value = true;
     } catch (error) {
         console.error('Error uploading form:', error);
     }
@@ -159,6 +206,7 @@ const handleSubmit = async () => {
 
 
 const SubmitData = async () => {
+    isLoading.value = true;
     try {
 
         const body = new FormData();
@@ -221,13 +269,22 @@ FotoKanan.value.forEach((item, index) => {
             return number;
         }
 
-        const Response = "Saya sudah mengisi form disini https://p2hpkb.site/report/view/" + id;
+
+
+        const Response = `Saya sudah mengisi form disini dengan
+        \nNama:${Nama.value}
+        \nTanggal:${Tanggal.value}
+        \nNomor Unit:${NoUnit.value}
+        \nKelayakan:${kelayakan.value}
+        \nhttps://p2hpkb.site/report/view/` + id;
         const EncodedResponse = encodeURIComponent(Response);
         const link = `https://api.whatsapp.com/send?phone=${ChangeFormat(Nomor_Telepon.value)}&text=${EncodedResponse}`;
         /*Disable during debug*/
           window.open(link);
     } catch (error) {
         console.error('Error uploading form:', error);
+    } finally {
+        isLoading.value = false;
     }
 }
 

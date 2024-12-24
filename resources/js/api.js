@@ -26,6 +26,51 @@ export const ManageReport = async (id, status) => {
     }
 };
 
+export const FetchContact = async () => {
+    try {
+        const response = await axios.get('/contact/get');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+        throw error;
+    }
+};
+
+export async function UploadContact(formData) {
+    try {
+        console.log('Contact:',formData);
+        const response = await axios.post('/contact/store', formData);
+        return response.data;
+    } catch (error) {
+
+        console.error('Error uploading form:', error.response || error);
+        throw new Error('Failed to upload form');
+    }
+}
+
+
+export const UpdateContact = async (id, contactData) => {
+    try {
+        const response = await axios.post(`/contact/update/${id}`, contactData);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error: ', error);
+        throw error;
+    }
+};
+
+export const DeleteContact = async (id) => {
+    try {
+        const response = await axios.delete(`/contact/delete/${id}`);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error: ', error);
+        throw error;
+    }
+};
+
 export const SearchReports = async ({ name, no_unit, tanggal_data, kelayakan, page }) => {
     try {
         const response = await axios.get('/report/search', {

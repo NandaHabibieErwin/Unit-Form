@@ -1,0 +1,51 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import  AddContact  from '@/Components/Contact/AddContactForm.vue'
+import  ContactList  from '@/Components/Contact/ContactList.vue'
+
+
+const props = defineProps({
+    Contact: Object,
+});
+
+console.log("Prop From Contact: ",props.Contact);
+
+const contacts = ref([]);
+
+const handleContactAdded = (newContact) => {
+    contacts.value.push(newContact);
+};
+
+</script>
+
+<template>
+
+    <Head title="Profile" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                Profile
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+
+                </div>
+
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+                    <ContactList :Contact="Contact"></ContactList>
+                </div>
+
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
+
+                </div>
+            </div>
+        </div>
+<AddContact @contactAdded="handleContactAdded"></AddContact>
+    </AuthenticatedLayout>
+</template>

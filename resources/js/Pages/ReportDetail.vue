@@ -15,6 +15,7 @@ const props = defineProps({
     report: Object,
 });
 const report = ref({ ...props.report });
+const isProcessing = ref(false);
 
 console.log(props.report);
 
@@ -23,8 +24,9 @@ const pdfRef = ref(null);
 console.log(props.report.status);
 
 const handleReport = async (status) => {
-    const response = await ManageReport(props.report.id, status);
+    isProcessing.value = true;
     try {
+        const response = await ManageReport(props.report.id, status);
     if (response && response.success) {
             report.value.status = status;
             DownloadPDF();
@@ -34,6 +36,8 @@ const handleReport = async (status) => {
         }
     } catch (error) {
         console.error("Error updating status:", error);
+    } finally {
+        isProcessing.value = false;
     }
     console.log("Updated:", response);
 };
@@ -213,26 +217,53 @@ const downloadPDF = () => {
         <!-- Sticky Bottom Bar -->
         <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-center">
             <div v-if="report.status === 'Pending' && IsAdmin" class="w-full flex justify-between gap-4">
-                <button @click="handleReport('Rejected')" class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
+                <!-- Buttons for "Reject" and "Approve" -->
+                <button
+                    v-if="!isProcessing"
+                    @click="handleReport('Rejected')"
+                    class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
                     Reject
                 </button>
-                <button @click="handleReport('Approved')" class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                <button
+                    v-if="!isProcessing"
+                    @click="handleReport('Approved')"
+                    class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
                     Approve
                 </button>
+
+                <!-- Loading Spinner -->
+                <div
+                    v-else
+                    class="flex-grow flex items-center justify-center">
+                    <div class="flex items-center gap-2">
+                        <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span class="text-blue-500 font-semibold text-lg">Processing...</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Status and "Download as PDF" Button -->
             <div v-else class="w-full text-center">
-                <p class="text-lg font-bold px-4 flex-grow mx-4 py-2 rounded-lg inline-block" :class="{
-                    'bg-green-100 text-green-800': report.status === 'Approved',
-                    'bg-red-100 text-red-800': report.status === 'Rejected',
-                    'bg-yellow-100 text-yellow-800': report.status === 'Pending'
-                }">
+                <p
+                    class="text-lg font-bold px-4 flex-grow mx-4 py-2 rounded-lg inline-block"
+                    :class="{
+                        'bg-green-100 text-green-800': report.status === 'Approved',
+                        'bg-red-100 text-red-800': report.status === 'Rejected',
+                        'bg-yellow-100 text-yellow-800': report.status === 'Pending'
+                    }">
                     {{ report.status }}
                 </p>
-                <button @click="DownloadPDF" class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                <button
+                    @click="DownloadPDF"
+                    class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
                     Download as PDF
                 </button>
             </div>
         </div>
+
 
     </AuthenticatedLayout>
 </template>

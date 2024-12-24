@@ -94,6 +94,10 @@ const submitLogout = () => {
                                             Profile
                                         </DropdownLink>
                                         <!--
+                                        <DropdownLink v-if="IsAdmin" :href="route('contact')">
+                                            Contact
+                                        </DropdownLink>-->
+                                        <!--
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>-->
@@ -165,6 +169,10 @@ const submitLogout = () => {
                             <ResponsiveNavLink v-if="IsAdmin" :href="route('profile.edit')">
                                 Profile
                             </ResponsiveNavLink>
+                            <!--
+                            <ResponsiveNavLink v-if="IsAdmin" :href="route('contact')">
+                                Contact
+                            </ResponsiveNavLink>-->
                             <!--
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
