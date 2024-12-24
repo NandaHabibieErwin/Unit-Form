@@ -102,6 +102,6 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
     label="SPV/Dept Head/Leader"
     placeholder="Pilih"
     validation="required"
-    :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo','Stephen Boenardi','Aprio Nugroho','Waston','Dani Rogusty', 'Nanda']"
+    :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo','Stephen Boenardi','Aprio Nugroho','Waston','Dani Rogusty']"
   />
   </template>
