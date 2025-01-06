@@ -138,7 +138,7 @@ const CheckKelayakan = () => {
 
     if (Ban_Velg_Baut === 'Buruk' ||
         Air_Radiator === 'Buruk' || APAR === 'Buruk' || Sabuk_Pengaman === 'Buruk' || Spion === 'Buruk' ||
-        Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Tidak' || masalah === 'Tidak'|| kondisi === 'Iya') {
+        Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Iya' || masalah === 'Iya'|| kondisi === 'Tidak') {
         return 'Layak dengan catatan'
     }
 
