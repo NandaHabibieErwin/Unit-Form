@@ -74,28 +74,40 @@ const downloadPDF = () => {
                     <!-- Header Section with Logo -->
                     <div class="bg-gradient-to-r from-yellow-300 to-yellow-400 text-white rounded-lg shadow-lg p-6 grid grid-cols-3 items-center">
                         <!-- Left Section -->
-                        <div class="text-left space-y-1">
-                            <h1 class="text-2xl font-bold">{{ report.Nama }}</h1>
-                            <p class="text-lg font-medium">Nomor Unit: {{ report.Nomor_Unit }}</p>
-                        </div>
+                        <div class="text-left space-y-4">
+                            <!-- Nama -->
+                            <div class="flex flex-col md:flex-row md:justify-between">
+                              <h1 class="font-bold md:w-1/3">Nama:</h1>
+                              <span class="font-normal md:w-2/3">{{ report.Nama }}</span>
+                            </div>
+                          
+                            <!-- Nomor Unit -->
+                            <div class="flex flex-col md:flex-row md:justify-between">
+                              <p class="font-medium md:w-1/3">Nomor Unit:</p>
+                              <span class="font-normal md:w-2/3">{{ report.Nomor_Unit }}</span>
+                            </div>
+                          </div>
 
                         <!-- Center Section -->
                         <div class="text-center">
-                            <p class="text-2xl font-bold">REPORT</p>
+                            <p class="text-lg md:text-xl lg:text-2xl font-bold">REPORT</p>
                         </div>
 
                         <!-- Right Section -->
-                        <div class="text-right space-y-1">
-                            <p>
-                                <span class="font-semibold">Tanggal:</span> {{ report.Tanggal_Data }}
-                            </p>
-                            <p>
-                                <span class="font-semibold">Kilometer:</span> {{ report.Kilo_Meter }} KM
-                            </p>
-                            <p>
-                                <span class="font-semibold">KM Service:</span> {{ report.KiloMeter_Service }} KM
-                            </p>
-                        </div>
+                        <div class="space-y-2 md:space-y-0">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                              <span class="text-right font-semibold md:mr-2">Tanggal:</span>
+                              <span class="text-right">{{ report.Tanggal_Data }}</span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                              <span class="text-right font-semibold md:mr-2">Kilometer:</span>
+                              <span class="text-right">{{ report.Kilo_Meter }} KM</span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                              <span class="text-right font-semibold md:mr-2">KM Service:</span>
+                              <span class="text-right">{{ report.KiloMeter_Service }} KM</span>
+                            </div>
+                          </div>
                     </div>
 
 
@@ -163,8 +175,7 @@ const downloadPDF = () => {
                         </div>
 
                         <!-- Photo -->
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 dark:text-gray-200">Photo</h3>
+                        <div>                            
                             <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
                                  <!-- Photo Kanan -->
                         <div>
