@@ -107,6 +107,7 @@ class ReportController extends Controller
                         'Tidak memiliki masalah pribadi atau keluarga yang dapat memengaruhi konsentrasi saya dalam mengemudi' => $data['masalah'] ?? '',
                         'Dalam Kondisi sehat dan fit untuk mengemudi' => $data['kondisi'] ?? '',
                         'Kelayakan' => $data['layak'] ?? '',
+                        'Status' => $data['status'] ?? '',
                     ]
                 ]
             );
