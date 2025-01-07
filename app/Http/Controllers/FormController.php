@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Form;
 use Illuminate\Http\Request;
 use Revolution\Google\Sheets\Facades\Sheets;
+use Illuminate\Support\Facades\Storage;
+
 
 class FormController extends Controller
 {
@@ -42,7 +44,7 @@ class FormController extends Controller
             'Ttd' => 'required',
         ]);
 
-        
+
 
         $Vehicle = json_decode($validated['Vehicle'], true);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -54,7 +56,7 @@ class FormController extends Controller
             return response()->json(['error' => 'Invalid JSON format in Health data.'], 400);
         }
 
-
+      $TtdImgPath =$validated['Ttd']->store('Ttd', 'public');
 
         $fotoKiriPaths = [];
         foreach ($request->FotoKiri as $foto) {
@@ -83,6 +85,7 @@ class FormController extends Controller
         [
             'FotoKiri' => json_encode($fotoKiriPaths),
             'FotoKanan' => json_encode($fotoKananPaths),
+            'ttd_user' => $TtdImgPath,
         ]
     );
 

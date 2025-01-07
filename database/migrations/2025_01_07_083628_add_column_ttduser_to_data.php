@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('data', function (Blueprint $table) {
             $table->string('ttd_user');
-            $table->string('ttd_admin');
+            $table->string('ttd_admin')->nullable();
         });
     }
 

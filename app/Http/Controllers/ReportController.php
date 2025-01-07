@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Revolution\Google\Sheets\Facades\Sheets;
 
 class ReportController extends Controller
@@ -50,6 +51,7 @@ class ReportController extends Controller
         $FormData = Form::findOrFail($id);
         $FormData->FotoKiri = str_replace(['\/', '[', ']', '"'], ['/', '', '', ''], $FormData->FotoKiri);
         $FormData->FotoKanan = str_replace(['\/', '[', ']', '"'], ['/', '', '', ''], $FormData->FotoKanan);
+        $FormData->ttd_user = Storage::url($FormData->ttd_user);
        // dd($FormData);
         return Inertia::render('ReportDetail',[
             'report' => $FormData,
