@@ -145,8 +145,8 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
     <FormKit type="select" :model-value="props.Head" @input="emit('update:Head', $event)" label="SPV/Dept Head/Leader"
         placeholder="Pilih" validation="required"
         :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo', 'Stephen Boenardi', 'Aprio Nugroho', 'Waston', 'Dani Rogusty']" />
-        
-        <h3 class="text-xl font-semibold text-gray-700 mb-4 dark:text-gray-300">Driver Health</h3>
+
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 dark:text-gray-300">Tanda Tangan Driver</h3>
     <VueSignaturePad height="150px" :scaleToDevicePixelRatio="true" class="bg-white" ref="signaturePad" :options="{
         onBegin: () => { $refs.signaturePad.resizeCanvas() },
         onEnd: () => {const RawTTD =  $refs.signaturePad.saveSignature(); ConvertTtdToImage(RawTTD)},
