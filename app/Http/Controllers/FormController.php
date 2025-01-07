@@ -39,7 +39,10 @@ class FormController extends Controller
             'Health' => 'required',
             'FotoKiri' => 'required',
             'FotoKanan' => 'required',
+            'Ttd' => 'required',
         ]);
+
+        
 
         $Vehicle = json_decode($validated['Vehicle'], true);
         if (json_last_error() !== JSON_ERROR_NONE) {

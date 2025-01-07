@@ -33,6 +33,8 @@ class Form extends Model
         'layak',
         'FotoKiri',
         'FotoKanan',
+        'ttd_user',
+        'ttd_admin',
     ];
 
 }

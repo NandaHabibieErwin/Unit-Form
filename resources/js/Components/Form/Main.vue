@@ -1,89 +1,89 @@
-<template>
+    <template>
 
-    <div class="">
-        <FormKit type="form" :actions="false" @submit="handleSubmit">
-            <FormKit type="multi-step" tab-style="tab">
-                <FormKit type="step" name="Personal Detail">
-                    <!-- component for example brevity. -->
-                    <PersonalDetail v-model:Nama="Nama" v-model:Tanggal="Tanggal" v-model:NoUnit="NoUnit"
-                        v-model:KM="KM" v-model:KMService="KMService" />
-                </FormKit>
+        <div class="">
+            <FormKit type="form" :actions="false" @submit="handleSubmit">
+                <FormKit type="multi-step" tab-style="tab">
+                    <FormKit type="step" name="Personal Detail">
+                        <!-- component for example brevity. -->
+                        <PersonalDetail v-model:Nama="Nama" v-model:Tanggal="Tanggal" v-model:NoUnit="NoUnit"
+                            v-model:KM="KM" v-model:KMService="KMService" />
 
-                <FormKit type="step" name="Vehicle">
-                    <!-- component for example brevity. -->
-                    <VehicleComponent v-model:Ban_Velg_Baut="Vehicle.Ban_Velg_Baut"
-                        v-model:Oli_Mesin="Vehicle.Oli_Mesin" v-model:Air_Radiator="Vehicle.Air_Radiator"
-                        v-model:APAR="Vehicle.APAR" v-model:Sabuk_Pengaman="Vehicle.Sabuk_Pengaman"
-                        v-model:Spion="Vehicle.Spion" v-model:Klakson_Alarm="Vehicle.Klakson_Alarm"
-                        v-model:Kontrol_Panel="Vehicle.Kontrol_Panel" v-model:Brake_System="Vehicle.Brake_System"
-                        v-model:Steering_System="Vehicle.Steering_System" v-model:Lampu="Vehicle.Lampu"
-                        v-model:Battery="Vehicle.Battery" />
-                </FormKit>
+                    </FormKit>
 
-                <FormKit type="step" name="Health Check">
-                    <!-- component for example brevity. -->
-                    <DriverHealth v-model:istirahat="Health.istirahat" v-model:obat="Health.obat"
-                        v-model:masalah="Health.masalah" v-model:kondisi="Health.kondisi" />
-                </FormKit>
+                    <FormKit type="step" name="Vehicle">
+                        <!-- component for example brevity. -->
+                        <VehicleComponent v-model:Ban_Velg_Baut="Vehicle.Ban_Velg_Baut"
+                            v-model:Oli_Mesin="Vehicle.Oli_Mesin" v-model:Air_Radiator="Vehicle.Air_Radiator"
+                            v-model:APAR="Vehicle.APAR" v-model:Sabuk_Pengaman="Vehicle.Sabuk_Pengaman"
+                            v-model:Spion="Vehicle.Spion" v-model:Klakson_Alarm="Vehicle.Klakson_Alarm"
+                            v-model:Kontrol_Panel="Vehicle.Kontrol_Panel" v-model:Brake_System="Vehicle.Brake_System"
+                            v-model:Steering_System="Vehicle.Steering_System" v-model:Lampu="Vehicle.Lampu"
+                            v-model:Battery="Vehicle.Battery" />
+                    </FormKit>
+
+                    <FormKit type="step" name="Health Check">
+                        <!-- component for example brevity. -->
+                        <DriverHealth v-model:istirahat="Health.istirahat" v-model:obat="Health.obat"
+                            v-model:masalah="Health.masalah" v-model:kondisi="Health.kondisi" />
+                    </FormKit>
 
 
-                <FormKit type="step" name="Photo">
-                    <!-- component for example brevity. -->
-                    <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan" />
-                </FormKit>
+                    <FormKit type="step" name="Photo">
+                        <!-- component for example brevity. -->
+                        <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan" />
+                    </FormKit>
 
-                <FormKit type="step" name="Summary">
-                    <!-- component for example brevity. -->
-                    <UnitSummary v-model:Head="Head" :Nama="Nama" :Tanggal="Tanggal" :NoUnit="NoUnit" :KM="KM"
-                        :KMService="KMService" :Head="Head" :Vehicle="Vehicle" :Health="Health"
-                        :Kelayakan="kelayakan" />
+                    <FormKit type="step" name="Summary">
+                        <!-- component for example brevity. -->
+                        <UnitSummary v-model:Head="Head" v-model:Ttd="Ttd" :Nama="Nama" :Tanggal="Tanggal" :NoUnit="NoUnit" :KM="KM"
+                            :KMService="KMService" :Head="Head" :Vehicle="Vehicle" :Health="Health"
+                            :Kelayakan="kelayakan" />
+                        <template #stepNext>
 
-                    <template #stepNext>
-
-                        <FormKit type="submit" :disabled="isLoading" />
-                    </template>
+                            <FormKit type="submit" :disabled="isLoading" />
+                        </template>
+                    </FormKit>
                 </FormKit>
             </FormKit>
-        </FormKit>
-    </div>
-    <div v-if="OpenModal" id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Masukkan nomor head anda untuk
-                        mengirim link form</h3>
-                    <button v-on:click="OpenModal = false" type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="static-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
-                    <FormKit type="text" label="Nomor Telepon" v-model="Nomor_Telepon" prefix-icon="avatarMan"
-                        validation="required" />
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button :disabled="isLoading" v-on:click="SubmitData" data-modal-hide="static-modal" type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <span v-if="isLoading">Uploading...</span>
-                        <span v-else>Send</span></button>
-                    <button v-on:click="OpenModal = false" data-modal-hide="static-modal" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+        </div>
+        <div v-if="OpenModal" id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="relative p-4 w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Masukkan nomor head anda untuk
+                            mengirim link form</h3>
+                        <button v-on:click="OpenModal = false" type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="static-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button :disabled="isLoading" v-on:click="SubmitData" data-modal-hide="static-modal"
+                            type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <span v-if="isLoading">Uploading...</span>
+                            <span v-else>Send</span></button>
+                        <button v-on:click="OpenModal = false" data-modal-hide="static-modal" type="button"
+                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</template>
+
+    </template>
 
 <script setup>
 import { ref } from 'vue'
@@ -93,10 +93,11 @@ import Photo from '@/Components/Form/Photo.vue'
 import UnitSummary from '@/Components/Form/UnitSummary.vue'
 import VehicleComponent from '@/Components/Form/VehicleComponent.vue'
 import { UploadForm } from '@/api.js';
-import { defineProps, defineEmits, computed } from 'vue'
+import { computed } from 'vue'
 
 const isLoading = ref(false);
 const Nama = ref('')
+const Ttd = ref('');
 const Tanggal = ref('')
 const NoUnit = ref('')
 const KM = ref('')
@@ -126,19 +127,21 @@ const Health = ref({
     masalah: '',
     kondisi: '',
 });
+
+
 const CheckKelayakan = () => {
     const { Oli_Mesin, Brake_System, Steering_System,
         Kontrol_Panel, Ban_Velg_Baut, Air_Radiator, APAR, Sabuk_Pengaman, Spion, Klakson_Alarm,
         Lampu, Battery } = Vehicle.value;
 
-        const { istirahat, obat, masalah, kondisi } = Health.value;
+    const { istirahat, obat, masalah, kondisi } = Health.value;
     if (Oli_Mesin === 'Buruk' || Brake_System === 'Buruk' || Steering_System === 'Buruk' || istirahat === 'Kurang dari 6 jam (Tidak diperbolehkan mengemudi)') {
         return 'Tidak Layak';
     }
 
     if (Ban_Velg_Baut === 'Buruk' ||
         Air_Radiator === 'Buruk' || APAR === 'Buruk' || Sabuk_Pengaman === 'Buruk' || Spion === 'Buruk' ||
-        Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Iya' || masalah === 'Iya'|| kondisi === 'Tidak') {
+        Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Iya' || masalah === 'Iya' || kondisi === 'Tidak') {
         return 'Layak dengan catatan'
     }
 
@@ -150,6 +153,7 @@ const isSubmitted = ref(false)
 
 /*
 When handling submit, it should open modal to provide link and input phone number. only then does it store into database.
+Changed, the modal should provide digital signature, THEN you can submit
 */
 const handleSubmit = async () => {
     try {
@@ -191,8 +195,9 @@ const handleSubmit = async () => {
             Nomor_Telepon.value = "6282385417804";
             console.log(Nomor_Telepon.value);
         }
-        SubmitData();
-        //OpenModal.value = true;
+
+        OpenModal.value = true;
+        // SubmitData();
     } catch (error) {
         console.error('Error uploading form:', error);
     }
@@ -226,6 +231,9 @@ const SubmitData = async () => {
             body.append(`FotoKanan[${index}][name]`, item.name);
             body.append(`FotoKanan[${index}][file]`, item.file);
         });
+        console.log("IsiTTD: ",Ttd.value)
+        body.append('Ttd', Ttd.value);
+
         /*
                 const formData = {
                     Nama: Nama.value,
@@ -266,11 +274,11 @@ const SubmitData = async () => {
 
 
         const Response = `Saya sudah mengisi form disini dengan
-        \nNama:${Nama.value}
-        \nTanggal:${Tanggal.value}
-        \nNomor Unit:${NoUnit.value}
-        \nKelayakan:${kelayakan.value}
-        \nhttps://p2hpkb.site/report/view/` + id;
+            \nNama:${Nama.value}
+            \nTanggal:${Tanggal.value}
+            \nNomor Unit:${NoUnit.value}
+            \nKelayakan:${kelayakan.value}
+            \nhttps://p2hpkb.site/report/view/` + id;
         const EncodedResponse = encodeURIComponent(Response);
         const link = `https://api.whatsapp.com/send?phone=${ChangeFormat(Nomor_Telepon.value)}&text=${EncodedResponse}`;
         /*Disable during debug*/

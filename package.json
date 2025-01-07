@@ -26,7 +26,11 @@
         "@formkit/vue": "^1.6.9",
         "bottom-navigation-vue": "^3.3.5",
         "html2pdf": "^0.0.11",
+        "jquery": "^3.7.1",
+        "jquery-ui": "^1.14.1",
+        "jquery-ui-dist": "^1.13.3",
         "vue-html2pdf": "^1.8.0",
+        "vue-signature-pad": "^3.0.2",
         "vue3-html2pdf": "^1.1.2"
     }
 }

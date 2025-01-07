@@ -7,6 +7,7 @@ import { createApp, h } from 'vue';
 import { plugin as FormkitPlugin, defaultConfig} from '@formkit/vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import config from './formkit.config'
+import VueSignaturePad from 'vue-signature-pad';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Machine Status Form';
 
@@ -29,6 +30,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(FormkitPlugin, defaultConfig(config))
+            .use(VueSignaturePad)
             .use(ZiggyVue)
             .mount(el);
     },
