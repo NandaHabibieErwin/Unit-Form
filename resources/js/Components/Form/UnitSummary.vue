@@ -26,6 +26,20 @@ const fetchContacts = async () => {
 };
 
 const ConvertTtdToImage = async (ttd) => {
+
+    const { isEmpty, data } = ttd;
+    const binaryData = atob(data.split(',')[1]); // Decode the base64 string (remove the prefix "data:image/png;base64,")
+    const arrayBuffer = new ArrayBuffer(binaryData.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+    }
+
+    const TtdImg = new File([uint8Array], `signature_${Date.now()}.png`, { type: 'image/png' });
+    emit('update:Ttd', TtdImg);
+
+    /*
     console.log("TTD RUN",ttd);
     const { isEmpty, data } = ttd;
     console.log("Data",data);
@@ -36,6 +50,7 @@ const ConvertTtdToImage = async (ttd) => {
     );
     console.log("TTDIMG",TtdImg);
     emit('update:Ttd', TtdImg);
+    */
 };
 
 onMounted(fetchContacts());

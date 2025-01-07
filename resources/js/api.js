@@ -5,7 +5,12 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[nam
 
 export async function UploadForm(formData) {
     try {
-        const response = await axios.post('/form/post', formData);
+        console.log(formData);
+        const response = await axios.post('/form/post', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
         return response.data;
     } catch (error) {
 
