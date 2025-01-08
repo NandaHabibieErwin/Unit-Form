@@ -4,6 +4,8 @@ import { FetchContact } from '@/api.js';
 
 const Contact = ref([]);
 
+
+
 const props = defineProps({
     Nama: String,
     Tanggal: String,
@@ -14,7 +16,6 @@ const props = defineProps({
     Health: Object,
     Head: String,
     Kelayakan: String,
-
 })
 
 const fetchContacts = async () => {
@@ -56,7 +57,7 @@ const ConvertTtdToImage = async (ttd) => {
 onMounted(fetchContacts());
 
 
-const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'update:KM', 'update:KMService', 'update:Head', 'update:Ttd'])
+const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'update:KM', 'update:KMService', 'update:Head', 'update:NamaSPV', 'update:NoSPV', 'update:Ttd'])
 
 </script>
 <template>
@@ -144,15 +145,15 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
 
     <FormKit type="select" :model-value="props.Head" @input="emit('update:Head', $event)" label="SPV/Dept Head/Leader"
         placeholder="Pilih" validation="required"
-        :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo', 'Stephen Boenardi', 'Aprio Nugroho', 'Waston', 'Dani Rogusty']" />
+        :options="['Irlang Haristo', 'Sariyanto', 'Edy Saputra', 'Efrem Togu Adi Suryo', 'Stephen Boenardi', 'Aprio Nugroho', 'Waston', 'Dani Rogusty', 'Lainnya']" />
 
-        <h3 class="text-xl font-semibold text-gray-700 mb-4 dark:text-gray-300">Tanda Tangan Driver</h3>
+    <h3 class="text-xl font-semibold text-gray-700 mb-4 dark:text-gray-300">Tanda Tangan Driver</h3>
     <VueSignaturePad height="150px" :scaleToDevicePixelRatio="true" class="bg-white" ref="signaturePad" :options="{
         onBegin: () => { $refs.signaturePad.resizeCanvas() },
-        onEnd: () => {const RawTTD =  $refs.signaturePad.saveSignature(); ConvertTtdToImage(RawTTD)},
+        onEnd: () => { const RawTTD = $refs.signaturePad.saveSignature(); ConvertTtdToImage(RawTTD) },
     }" />
     <button type="button"
-        class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded my-5"
+        class="bg-transparent hover:bg-yellow-500 text-yellow-700 mr-3 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded my-5"
         @click="$refs.signaturePad.undoSignature()">Undo</button>
     <button type="button"
         class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded my-5"

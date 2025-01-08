@@ -35,9 +35,12 @@
 
                     <FormKit type="step" name="Summary">
                         <!-- component for example brevity. -->
-                        <UnitSummary v-model:Head="Head" v-model:Ttd="Ttd" :Nama="Nama" :Tanggal="Tanggal" :NoUnit="NoUnit" :KM="KM"
-                            :KMService="KMService" :Head="Head" :Vehicle="Vehicle" :Health="Health"
-                            :Kelayakan="kelayakan" />
+                        <UnitSummary v-model:Head="Head" v-model:Ttd="Ttd" :Nama="Nama" :Tanggal="Tanggal"
+                            :NoUnit="NoUnit" :KM="KM" :KMService="KMService" :Head="Head" :Vehicle="Vehicle"
+                            :Health="Health" :Kelayakan="kelayakan" />
+
+
+
                         <template #stepNext>
 
                             <FormKit type="submit" :disabled="isLoading" />
@@ -53,7 +56,9 @@
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Pastikan data yg dikirim sudah benar</h3>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Pastikan data yg dikirim sudah
+                            benar
+                        </h3>
                         <button v-on:click="OpenModal = false" type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                             data-modal-hide="static-modal">
@@ -66,6 +71,11 @@
                         </button>
                     </div>
                     <!-- Modal body -->
+                    <div class="ml-4" v-if="Custom">
+                        <FormKit type="text" label="Nama" v-model="NamaSPV" placeholder="Masukkan Nama SPV" />
+                        <FormKit type="text" label="Nomor Telepon" v-model="NoSPV"
+                            placeholder="Masukkan Nomor Telepon" />
+                    </div>
                     <div>
                     </div>
                     <!-- Modal footer -->
@@ -94,6 +104,7 @@ import VehicleComponent from '@/Components/Form/VehicleComponent.vue'
 import { UploadForm } from '@/api.js';
 import { computed } from 'vue'
 
+const Custom = ref(false)
 const isLoading = ref(false);
 const Nama = ref('')
 const Ttd = ref('');
@@ -104,6 +115,8 @@ const KMService = ref('')
 const FotoKiri = ref(null);
 const FotoKanan = ref(null);
 const Head = ref('')
+const NamaSPV = ref('')
+const NoSPV = ref('')
 const OpenModal = ref(false)
 const Nomor_Telepon = ref('')
 const Vehicle = ref({
@@ -156,6 +169,8 @@ Changed, the modal should provide digital signature, THEN you can submit
 */
 const handleSubmit = async () => {
     try {
+        Custom.value = false;
+        console.log("PANTEK ", NamaSPV.value)
         console.log("Vehicle: " + JSON.stringify(Vehicle.value, null, 2));
         console.log("Health: " + JSON.stringify(Health.value, null, 2));
         if (Head.value === "Irlang Haristo") {
@@ -194,6 +209,9 @@ const handleSubmit = async () => {
             Nomor_Telepon.value = "6282385417804";
             console.log(Nomor_Telepon.value);
         }
+        if (Head.value === "Lainnya") {
+            Custom.value = true;
+        }
 
         OpenModal.value = true;
         // SubmitData();
@@ -214,7 +232,14 @@ const SubmitData = async () => {
         body.append('Nomor_Unit', NoUnit.value);
         body.append('Kilo_Meter', KM.value);
         body.append('KiloMeter_Service', KMService.value);
+        if (Head.value === "Lainnya") {
+            Head.value = NamaSPV.value;
+            Nomor_Telepon.value = NoSPV.value;
+            console.log("CustomSPVDATA: ", NamaSPV.value, NoSPV.value);
+        }
+
         body.append('Head', Head.value);
+
         body.append('layak', kelayakan.value);
 
 
@@ -230,7 +255,7 @@ const SubmitData = async () => {
             body.append(`FotoKanan[${index}][name]`, item.name);
             body.append(`FotoKanan[${index}][file]`, item.file);
         });
-        console.log("IsiTTD: ",Ttd.value)
+        console.log("IsiTTD: ", Ttd.value)
         body.append('Ttd', Ttd.value);
 
         /*

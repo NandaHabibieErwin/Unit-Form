@@ -2,12 +2,11 @@
 import { ManageReport } from '@/api';
 import Vue3Html2pdf from 'vue3-html2pdf'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { defineProps, ref, computed } from 'vue';
 import html2pdf from 'html2pdf.js';
-import jsPDF from 'jspdf';
-import UTLogo from '@/Components/UTLogo.vue';
-import { usePage } from '@inertiajs/vue3';
+
+
 const page = usePage();
 const IsAdmin = computed(() => page.props.auth.user.name === 'admin');
 
@@ -18,17 +17,49 @@ const report = ref({ ...props.report });
 const isProcessing = ref(false);
 
 console.log(props.report);
+console.log("TTD ;",props.report.ttd_admin);
 
-const ShowPDF = ref(false);
+const kelayakan = computed(() => CheckIfUploaded());
+
+const LoadTTD = ref(false);
 const pdfRef = ref(null);
+const DisableButton = ref(false);
 console.log(props.report.status);
 
-const handleReport = async (status) => {
+const CheckIfUploaded = () => {
+    if (RawTTD.value === null || RawTTD.value === undefined) {
+        DisableButton = true;
+        console.log("Buton disabled");
+    } else {
+        DisableButton = false;
+        console.log("Buton enabled");
+    }
+};
+
+const ConvertTtdToImage = async (ttd) => {
+    console.log("tanda ",ttd);
+    const { isEmpty, data } = ttd;
+    const binaryData = atob(data.split(',')[1]); // Decode the base64 string (remove the prefix "data:image/png;base64,")
+    const arrayBuffer = new ArrayBuffer(binaryData.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+    }
+
+    const TtdImg = new File([uint8Array], `signature_${Date.now()}.png`, { type: 'image/png' });
+    return TtdImg;
+};
+const handleReport = async (status, ttd) => {
     isProcessing.value = true;
     try {
-        const response = await ManageReport(props.report.id, status);
+        const TTDSPV = await ConvertTtdToImage(ttd);
+        console.log(TTDSPV);
+        const response = await ManageReport(props.report.id, status, TTDSPV);
         if (response && response.success) {
             report.value.status = status;
+            report.value.ttd_admin = response.image;
+            console.log('yg udah: ',props.report.ttd_admin);
             DownloadPDF();
             console.log("Updated:", report.value);
         } else {
@@ -238,13 +269,28 @@ const downloadPDF = () => {
                                         TTD Driver:</h3>
                                     <img :src="report.ttd_user" class="bg-gray-100">
                                 </div>
-                                <!--
+
                                 <div>
-                                    <h3 class="text-lg font-semibold mb-5 text-gray-800 dark:text-gray-200" >
-                                        TTD Admin:</h3>
-                                    <img :src="report.ttd_user" class="bg-gray-100">
+                                    <h3 class="text-lg font-semibold mb-5 text-gray-800 dark:text-gray-200">
+                                        TTD SPV/Dept Head/Leader:</h3>
+                                    <div v-if="IsAdmin && !report.ttd_admin">
+                                        <VueSignaturePad height="150px" :scaleToDevicePixelRatio="true"
+                                            class="bg-gray-500" ref="signaturePadSPV" :options="{
+                                                    onBegin: () => { $refs.signaturePadSPV.resizeCanvas() },
+                                                    onEnd: () => { RawTTD = $refs.signaturePadSPV.saveSignature(); },
+                                                }
+
+                                                "></VueSignaturePad>
+                                        <button type="button"
+                                            class="bg-transparent mr-3 hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent transition rounded my-5"
+                                            @click="$refs.signaturePadSPV.undoSignature()">Undo</button>
+                                        <button type="button"
+                                            class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent transition rounded my-5"
+                                            @click="$refs.signaturePadSPV.clearSignature()">Clear</button>
+                                    </div>
+                                    <img v-else :src="report.ttd_admin" class="bg-gray-100">
                                 </div>
-                                -->
+
                             </div>
                         </div>
                     </div>
@@ -257,12 +303,16 @@ const downloadPDF = () => {
             class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-center">
             <div v-if="report.status === 'Pending' && IsAdmin" class="w-full flex justify-between gap-4">
                 <!-- Buttons for "Reject" and "Approve" -->
-                <button v-if="!isProcessing" @click="handleReport('Rejected')"
-                    class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
+                <button v-if="!isProcessing" :disabled="DisableButton" @click="
+                {                   ConvertTtdToImage(RawTTD); handleReport('Rejected', RawTTD);
+                }" class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
                     Reject
                 </button>
-                <button v-if="!isProcessing" @click="handleReport('Approved')"
-                    class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                <button v-if="!isProcessing" :disabled="DisableButton" @click="
+                {
+                    ConvertTtdToImage(RawTTD);
+                    handleReport('Approved', RawTTD);
+                }" class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
                     Approve
                 </button>
 

@@ -24,27 +24,27 @@ class ReportController extends Controller
 
 
     public function search(Request $request)
-{
-    $query = Form::query();
+    {
+        $query = Form::query();
 
-    if ($request->filled('name')) {
-        $query->where('Nama', 'like', '%' . $request->name . '%');
-    }
+        if ($request->filled('name')) {
+            $query->where('Nama', 'like', '%' . $request->name . '%');
+        }
 
-    if ($request->filled('no_unit')) {
-        $query->where('Nomor_Unit', 'like', '%' . $request->no_unit . '%');
-    }
+        if ($request->filled('no_unit')) {
+            $query->where('Nomor_Unit', 'like', '%' . $request->no_unit . '%');
+        }
 
-    if ($request->filled('tanggal_data')) {
-        $query->whereDate('Tanggal_Data', $request->tanggal_data);
-    }
+        if ($request->filled('tanggal_data')) {
+            $query->whereDate('Tanggal_Data', $request->tanggal_data);
+        }
 
-    if ($request->filled('kelayakan')) {
-        $query->where('Layak', $request->kelayakan);
-    }
+        if ($request->filled('kelayakan')) {
+            $query->where('Layak', $request->kelayakan);
+        }
         $query->orderBy('created_at', 'desc');
-    return response()->json($query->Paginate(10));
-}
+        return response()->json($query->Paginate(10));
+    }
 
     public function ViewReport($id)
     {
@@ -52,31 +52,40 @@ class ReportController extends Controller
         $FormData->FotoKiri = str_replace(['\/', '[', ']', '"'], ['/', '', '', ''], $FormData->FotoKiri);
         $FormData->FotoKanan = str_replace(['\/', '[', ']', '"'], ['/', '', '', ''], $FormData->FotoKanan);
         $FormData->ttd_user = Storage::url($FormData->ttd_user);
-       // dd($FormData);
-        return Inertia::render('ReportDetail',[
+        if(!empty($FormData->ttd_admin))
+        { $FormData->ttd_admin = Storage::url($FormData->ttd_admin); }
+        // dd($FormData);
+        return Inertia::render('ReportDetail', [
             'report' => $FormData,
         ]);
     }
 
-    public function ManageReport($id, $status)
+    public function ManageReport($id, $status, Request $request)
     {
+        $request->validate([
+            'ttd_spv' => 'required',
+            ]);
+
+        $TTD_SPV = $request->ttd_spv;
         $FormData = Form::findOrFail($id);
-        if($status == "Approved"){
-        $FormData->status = "Approved";
-    }
-    else if ($status == "Rejected")
-    {
-        $FormData->status = "Rejected";
-    }
+        $TtdImgPath = $TTD_SPV->store('TtdSPV', 'public');
+        if ($status == "Approved") {
+            $FormData->status = "Approved";
+        } else if ($status == "Rejected") {
+            $FormData->status = "Rejected";
+        }
+
+        $FormData->ttd_admin = $TtdImgPath;
 
         $FormData->save();
         $this->InsertIntoSheet($FormData);
         return response()->json([
             'success' => true,
             'message' => 'Status updated successfully',
-            'data' => $FormData
+            'data' => $FormData,
+            'image' => Storage::url($FormData->ttd_admin)
         ], 200);
-       // dd($FormData);
+        // dd($FormData);
     }
 
     public function InsertIntoSheet($data)

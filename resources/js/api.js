@@ -19,9 +19,11 @@ export async function UploadForm(formData) {
     }
 }
 
-export const ManageReport = async (id, status) => {
+export const ManageReport = async (id, status, ttd_spv) => {
     try {
-        const response = await axios.post(`/report/manage/${id}/${status}`);
+        const TtdSPV = new FormData();
+        TtdSPV.append('ttd_spv', ttd_spv)
+        const response = await axios.post(`/report/manage/${id}/${status}`, TtdSPV);
         console.log(response.data);
         return response.data;
 
