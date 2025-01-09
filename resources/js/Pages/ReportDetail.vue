@@ -203,18 +203,7 @@ const downloadPDF = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="my-5">
-                                        <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">
-                                            Keterangan/Catatan SPV
-                                        </h3>
-                                        <input v-if="IsAdmin && !report.keterangan_spv" v-model="KeteranganSPV"
-                                            type="text" placeholder="Keterangan/Catatan SPV"
-                                            class="w-full px-4 py-3   rounded-lg shadow-sm focus:ring-4  focus:outline-none transition group-hover:shadow-md" />
-                                        <p v-else class="text-gray-900 dark:text-gray-100">{{ report.keterangan_spv }}
-                                        </p>
-                                    </div>
-                                </div>
+
                             </div>
 
                             <!-- Driver Health -->
@@ -329,8 +318,23 @@ const downloadPDF = () => {
                                 </div>
 
                             </div>
+                            <div class="my-5 mx-5">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">
+                                    Keterangan/Catatan SPV
+                                </h3>
+                                <input v-if="IsAdmin && !report.keterangan_spv" v-model="KeteranganSPV"
+                                    type="text" placeholder="Keterangan/Catatan SPV"
+                                    class="w-full px-4 py-3   rounded-lg shadow-sm focus:ring-4  focus:outline-none transition group-hover:shadow-md" />
+                                <p v-else class="text-gray-900 dark:text-gray-100">{{ report.keterangan_spv }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+
                         </div>
                     </div>
+
                 </div>
 
             </div>
