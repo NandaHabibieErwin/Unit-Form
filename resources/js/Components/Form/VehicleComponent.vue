@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 
-// Define props for individual data fields
 const props = defineProps({
   Ban_Velg_Baut: String,
   Oli_Mesin: String,
@@ -15,9 +14,16 @@ const props = defineProps({
   Steering_System: String,
   Lampu: String,
   Battery: String,
+  Air_Conditioner: String,
+  Wiper: String,
+  V_Belt: String,
+  Kaca: String,
+Buggy_Whip: String,
+Radio_Komunikasi: String,
+Sistem_4wd: String,
 });
 
-// Define emits for updates
+
 const emit = defineEmits([
   'update:Ban_Velg_Baut',
   'update:Oli_Mesin',
@@ -31,6 +37,13 @@ const emit = defineEmits([
   'update:Steering_System',
   'update:Lampu',
   'update:Battery',
+  'update:Air_Conditioner',
+  'update:Wiper',
+  'update:V_Belt',
+  'update:Kaca',
+  'update:Buggy_Whip',
+  'update:Radio_Komunikasi',
+  'update:Sistem_4wd',
 ]);
 </script>
 
@@ -192,5 +205,92 @@ const emit = defineEmits([
         @input="emit('update:Battery', $event)"
       />
     </div>
+
+    <!-- MORE FUCKING SHIT HOLY FUCKING FUCK, YES I COULD SIMPLIFY THIS WITH LOOPING AND COMPONENT BUT I DONT GIVE A SHIT AT THIS POINT FUCK YOU -->
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Air Conditioner (AC)"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Air_Conditioner"
+        :model-value="props.Air_Conditioner"
+        @input="emit('update:Air_Conditioner', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Wiper"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Wiper"
+        :model-value="props.Wiper"
+        @input="emit('update:Wiper', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="V-Belt"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="V_Belt"
+        :model-value="props.V_Belt"
+        @input="emit('update:V_Belt', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Kaca Depan, Samping & Belakang"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Kaca"
+        :model-value="props.Kaca"
+        @input="emit('update:Kaca', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Buggy Whip 4M"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Buggy_Whip"
+        :model-value="props.Buggy_Whip"
+        @input="emit('update:Buggy_Whip', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Radio Komunikasi"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Radio_Komunikasi"
+        :model-value="props.Radio_Komunikasi"
+        @input="emit('update:Radio_Komunikasi', $event)"
+      />
+    </div>
+    <div class="border p-4 rounded shadow">
+        <span class="badge text-xs bg-yellow-400 text-black font-semibold py-1 px-2 rounded">A</span>
+      <FormKit
+        type="radio"
+        label="Sistem 4WD"
+        validation="required"
+        :options="['Baik', 'Buruk', 'NA']"
+        name="Sistem_4wd"
+        :model-value="props.Sistem_4wd"
+        @input="emit('update:Sistem_4wd', $event)"
+      />
+    </div>
+
   </div>
 </template>

@@ -3,8 +3,9 @@ import {defineProps, defineEmits } from 'vue'
 const props = defineProps({
   FotoKiri: File,
   FotoKanan: File,
+  Keterangan: String,
 })
-const emit = defineEmits(['update:FotoKiri', 'update:FotoKanan'])
+const emit = defineEmits(['update:FotoKiri', 'update:FotoKanan', 'update:Keterangan'])
 
 </script>
 
@@ -29,5 +30,14 @@ const emit = defineEmits(['update:FotoKiri', 'update:FotoKanan'])
   multiple="false"
   validation="required"
 />
+
+<FormKit
+      type="text"
+      label="Keterangan"
+      :model-value="props.Keterangan"
+    @input="emit('update:Keterangan', $event)"
+      prefix-icon="avatarMan"
+      validation="required"
+    />
 
 </template>

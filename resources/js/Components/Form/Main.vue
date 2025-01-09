@@ -18,7 +18,10 @@
                             v-model:Spion="Vehicle.Spion" v-model:Klakson_Alarm="Vehicle.Klakson_Alarm"
                             v-model:Kontrol_Panel="Vehicle.Kontrol_Panel" v-model:Brake_System="Vehicle.Brake_System"
                             v-model:Steering_System="Vehicle.Steering_System" v-model:Lampu="Vehicle.Lampu"
-                            v-model:Battery="Vehicle.Battery" />
+                            v-model:Battery="Vehicle.Battery" v-model:Air_Conditioner="Vehicle.Air_Conditioner"
+                            v-model:Wiper="Vehicle.Wiper" v-model:V_Belt="Vehicle.V_Belt" v-model:Buggy_Whip="Vehicle.Buggy_Whip" v-model:Kaca="Vehicle.Kaca"
+                            v-model:Radio_Komunikasi="Vehicle.Radio_Komunikasi"
+                            v-model:Sistem_4wd="Vehicle.Sistem_4wd" />
                     </FormKit>
 
                     <FormKit type="step" name="Health Check">
@@ -28,16 +31,17 @@
                     </FormKit>
 
 
-                    <FormKit type="step" name="Photo">
+                    <FormKit type="step" name="Photo of Vehicle & Information">
                         <!-- component for example brevity. -->
-                        <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan" />
+                        <Photo v-model:FotoKiri="FotoKiri" v-model:FotoKanan="FotoKanan"
+                            v-model:Keterangan="Keterangan" />
                     </FormKit>
 
                     <FormKit type="step" name="Summary">
                         <!-- component for example brevity. -->
                         <UnitSummary v-model:Head="Head" v-model:Ttd="Ttd" :Nama="Nama" :Tanggal="Tanggal"
                             :NoUnit="NoUnit" :KM="KM" :KMService="KMService" :Head="Head" :Vehicle="Vehicle"
-                            :Health="Health" :Kelayakan="kelayakan" />
+                            :Health="Health" :Kelayakan="kelayakan" :Keterangan="Keterangan" />
 
 
 
@@ -115,6 +119,7 @@ const KMService = ref('')
 const FotoKiri = ref(null);
 const FotoKanan = ref(null);
 const Head = ref('')
+const Keterangan = ref('');
 const NamaSPV = ref('')
 const NoSPV = ref('')
 const OpenModal = ref(false)
@@ -132,6 +137,13 @@ const Vehicle = ref({
     Steering_System: '',
     Lampu: '',
     Battery: '',
+    Air_Conditioner: '',
+    Wiper: '',
+    V_Belt: '',
+    Kaca: '',
+    Buggy_Whip: '',
+    Radio_Komunikasi: '',
+    Sistem_4wd: '',
 });
 const Health = ref({
     istirahat: '',
@@ -144,7 +156,14 @@ const Health = ref({
 const CheckKelayakan = () => {
     const { Oli_Mesin, Brake_System, Steering_System,
         Kontrol_Panel, Ban_Velg_Baut, Air_Radiator, APAR, Sabuk_Pengaman, Spion, Klakson_Alarm,
-        Lampu, Battery } = Vehicle.value;
+        Lampu, Battery,
+        Air_Conditioner,
+        Wiper,
+        V_Belt,
+        Kaca,
+        Buggy_Whip,
+        Radio_Komunikasi,
+        Sistem_4wd, } = Vehicle.value;
 
     const { istirahat, obat, masalah, kondisi } = Health.value;
     if (Oli_Mesin === 'Buruk' || Brake_System === 'Buruk' || Steering_System === 'Buruk' || istirahat === 'Kurang dari 6 jam (Tidak diperbolehkan mengemudi)') {
@@ -152,6 +171,13 @@ const CheckKelayakan = () => {
     }
 
     if (Ban_Velg_Baut === 'Buruk' ||
+        Air_Conditioner === 'Buruk' ||
+        Wiper === 'Buruk' ||
+        V_Belt === 'Buruk' ||
+        Kaca === 'Buruk' ||
+        Buggy_Whip === 'Buruk' ||
+        Radio_Komunikasi === 'Buruk' ||
+        Sistem_4wd === 'Buruk' ||
         Air_Radiator === 'Buruk' || APAR === 'Buruk' || Sabuk_Pengaman === 'Buruk' || Spion === 'Buruk' ||
         Klakson_Alarm === 'Buruk' || Lampu === 'Buruk' || istirahat === '4-6 jam (Wajib konseling dengan pengawas/user)' || Battery === 'Buruk' || obat === 'Iya' || masalah === 'Iya' || kondisi === 'Tidak') {
         return 'Layak dengan catatan'
@@ -242,6 +268,7 @@ const SubmitData = async () => {
 
         body.append('layak', kelayakan.value);
 
+        body.append('Keterangan', Keterangan.value);
 
         body.append('Vehicle', JSON.stringify(Vehicle.value));
         body.append('Health', JSON.stringify(Health.value));

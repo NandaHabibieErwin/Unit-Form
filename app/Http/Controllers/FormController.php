@@ -34,7 +34,8 @@ class FormController extends Controller
             'Tanggal_Data' => 'required',
             'Nomor_Unit' => 'required',
             'Kilo_Meter' => 'required',
-            'KiloMeter_Service' => 'required',
+            'KiloMeter_Service' => 'max:255',
+            'Keterangan' => 'string',
             'Head' => 'required',
             'layak' => 'required',
             'Vehicle' => 'required',
@@ -122,3 +123,28 @@ class FormController extends Controller
         //
     }
 }
+
+/*
+Those who come
+Juwita
+Raska
+Neng
+Iqbal
+Miyako
+Reyhan
+Zami
+Ninda
+Wahyu
+Haikal
+Selvina
+Savina
+Azizah
+Fikron
+Hadi
+Assegaf
+Jonathan
+Marsela
+Windy
+Taskia
+Indah
+*/

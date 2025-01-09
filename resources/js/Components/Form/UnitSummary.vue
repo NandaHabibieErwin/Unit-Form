@@ -16,6 +16,7 @@ const props = defineProps({
     Health: Object,
     Head: String,
     Kelayakan: String,
+    Keterangan: String,
 })
 
 const fetchContacts = async () => {
@@ -57,7 +58,7 @@ const ConvertTtdToImage = async (ttd) => {
 onMounted(fetchContacts());
 
 
-const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'update:KM', 'update:KMService', 'update:Head', 'update:NamaSPV', 'update:NoSPV', 'update:Ttd'])
+const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'update:KM', 'update:KMService', 'update:Head', 'update:NamaSPV', 'update:NoSPV', 'update:Ttd', 'update:Keterangan'])
 
 </script>
 <template>
@@ -65,7 +66,7 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
         class="summary-container bg-white shadow-lg rounded-lg p-6 mx-auto max-w-3xl lg:max-w-4xl dark:bg-gray-800 dark:text-gray-200">
         <h2
             class="text-2xl font-bold text-gray-800 mb-6 text-center border-b pb-3 dark:text-gray-100 dark:border-gray-600">
-            Summary Report
+            Summary
         </h2>
 
         <!-- Personal Information Section -->
@@ -124,7 +125,30 @@ const emit = defineEmits(['update:Nama', 'update:Tanggal', 'update:NoUnit', 'upd
                         }}</span></li>
                 <li><strong>Battery:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
                     Vehicle.Battery }}</span></li>
+
+                <li><strong>Air Conditioner:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.Air_Conditioner }}</span></li>
+                <li><strong>Wiper:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.Wiper }}</span></li>
+                <li><strong>V-Belt:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.V_Belt }}</span></li>
+                <li><strong>Kaca Depan, Samping dan Belakang:</strong> <span
+                        class="font-medium text-gray-800 dark:text-gray-200">{{
+                            Vehicle.Kaca }}</span></li>
+                <li><strong>Buggy Whip 4M:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.Buggy_Whip
+                        }}</span></li>
+                <li><strong>Radio Komunikasi:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.Radio_Komunikasi }}</span></li>
+                <li><strong>Sistem 4WD:</strong> <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Vehicle.Sistem_4wd
+                        }}</span></li>
             </ul>
+            <div>
+                <h3 class="text-xl font-semibold mt-4 text-gray-700 mb-1 dark:text-gray-300">Keterangan</h3>
+                <span class="font-medium text-gray-800 dark:text-gray-200">{{
+                    Keterangan }}</span>
+            </div>
         </div>
 
         <!-- Driver Health Section -->

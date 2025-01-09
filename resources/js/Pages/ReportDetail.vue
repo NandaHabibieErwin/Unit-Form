@@ -17,7 +17,7 @@ const report = ref({ ...props.report });
 const isProcessing = ref(false);
 
 console.log(props.report);
-console.log("TTD ;",props.report.ttd_admin);
+console.log("TTD ;", props.report.ttd_admin);
 
 const kelayakan = computed(() => CheckIfUploaded());
 
@@ -37,7 +37,7 @@ const CheckIfUploaded = () => {
 };
 
 const ConvertTtdToImage = async (ttd) => {
-    console.log("tanda ",ttd);
+    console.log("tanda ", ttd);
     const { isEmpty, data } = ttd;
     const binaryData = atob(data.split(',')[1]); // Decode the base64 string (remove the prefix "data:image/png;base64,")
     const arrayBuffer = new ArrayBuffer(binaryData.length);
@@ -59,7 +59,7 @@ const handleReport = async (status, ttd) => {
         if (response && response.success) {
             report.value.status = status;
             report.value.ttd_admin = response.image;
-            console.log('yg udah: ',props.report.ttd_admin);
+            console.log('yg udah: ', props.report.ttd_admin);
             DownloadPDF();
             console.log("Updated:", report.value);
         } else {
@@ -122,7 +122,7 @@ const downloadPDF = () => {
 
                             <!-- Center Section -->
                             <div class="text-center">
-                                <p class="text-lg md:text-xl lg:text-2xl font-bold">REPORT</p>
+                                <p class="text-md md:text-xl lg:text-2xl font-bold">Checklist P2H <br>Kendaraan Sarana</p>
                             </div>
 
                             <!-- Right Section -->
@@ -164,7 +164,15 @@ const downloadPDF = () => {
                                         'Kontrol Panel': report.Kontrol_Panel,
                                         'Brake System': report.Brake_System,
                                         'Steering System': report.Steering_System,
-                                        'Battery': report.Battery
+                                        'Battery': report.Battery,
+                                        'Air Conditioner': report.Air_Conditioner,
+                                        'Wiper': report.Wiper,
+                                        'V-Belt': report.V_Belt,
+                                        'Kaca Depan, Samping, Belakang': report.Kaca,
+                                        'Buggy Whip 4M': report.Buggy_Whip,
+                                        'Radio Komunikasi': report.Radio_Komunikasi,
+                                        'Sistem 4WD': report.Sistem_4wd,
+
                                     }" :key="key" class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg shadow-sm">
 
                                         <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">
@@ -176,6 +184,14 @@ const downloadPDF = () => {
                                             {{ key }}
                                         </p>
                                         <p class="text-gray-900 dark:text-gray-100 mt-2 font-semibold">{{ value }}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="my-5">
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">Keterangan
+                                        </h3>
+                                        <p class="text-gray-900 dark:text-gray-100">{{ report.keterangan }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -276,9 +292,9 @@ const downloadPDF = () => {
                                     <div v-if="IsAdmin && !report.ttd_admin">
                                         <VueSignaturePad height="150px" :scaleToDevicePixelRatio="true"
                                             class="bg-gray-500" ref="signaturePadSPV" :options="{
-                                                    onBegin: () => { $refs.signaturePadSPV.resizeCanvas() },
-                                                    onEnd: () => { RawTTD = $refs.signaturePadSPV.saveSignature(); },
-                                                }
+                                                onBegin: () => { $refs.signaturePadSPV.resizeCanvas() },
+                                                onEnd: () => { RawTTD = $refs.signaturePadSPV.saveSignature(); },
+                                            }
 
                                                 "></VueSignaturePad>
                                         <button type="button"
@@ -304,15 +320,18 @@ const downloadPDF = () => {
             <div v-if="report.status === 'Pending' && IsAdmin" class="w-full flex justify-between gap-4">
                 <!-- Buttons for "Reject" and "Approve" -->
                 <button v-if="!isProcessing" :disabled="DisableButton" @click="
-                {                   ConvertTtdToImage(RawTTD); handleReport('Rejected', RawTTD);
-                }" class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                {
+                    ConvertTtdToImage(RawTTD); handleReport('Rejected', RawTTD);
+                }"
+                    class="flex-grow px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
                     Reject
                 </button>
                 <button v-if="!isProcessing" :disabled="DisableButton" @click="
                 {
                     ConvertTtdToImage(RawTTD);
                     handleReport('Approved', RawTTD);
-                }" class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
+                }"
+                    class="flex-grow px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
                     Approve
                 </button>
 
