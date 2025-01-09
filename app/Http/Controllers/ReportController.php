@@ -64,6 +64,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'ttd_spv' => 'required',
+            'keterangan_spv' => 'max:255',
             ]);
 
         $TTD_SPV = $request->ttd_spv;
@@ -76,14 +77,16 @@ class ReportController extends Controller
         }
 
         $FormData->ttd_admin = $TtdImgPath;
+        $FormData->keterangan_spv = $request->keterangan_spv;
 
-        $FormData->save();
+       $FormData->save();
         $this->InsertIntoSheet($FormData);
         return response()->json([
             'success' => true,
             'message' => 'Status updated successfully',
             'data' => $FormData,
             'image' => Storage::url($FormData->ttd_admin)
+
         ], 200);
         // dd($FormData);
     }
@@ -121,6 +124,7 @@ class ReportController extends Controller
                         'Radio_Komunikasi' => $data['Radio_Komunikasi'] ?? '',
                         'Sistem_4wd' => $data['Sistem_4wd'] ?? '',
                         'Keterangan' => $data['Keterangan'] ?? '',
+                        'keterangan_spv' => $data['keterangan_spv'] ?? '',
                         'Telah beristirahat sebelum awal shift selama' => $data['istirahat'] ?? '',
                         'Tidak mengonsumsi obat-obatan yang dapat menyebabkan ngantuk dalam periode 8 jam sebelum mengemudi' => $data['obat'] ?? '',
                         'Tidak memiliki masalah pribadi atau keluarga yang dapat memengaruhi konsentrasi saya dalam mengemudi' => $data['masalah'] ?? '',

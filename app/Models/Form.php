@@ -28,6 +28,7 @@ class Form extends Model
         'Battery',
         'istirahat',
         'Keterangan',
+        'keterangan_spv',
         'Air_Conditioner',
         'Wiper',
         'V_Belt',

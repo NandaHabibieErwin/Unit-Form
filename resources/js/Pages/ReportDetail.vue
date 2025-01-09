@@ -20,10 +20,11 @@ console.log(props.report);
 console.log("TTD ;", props.report.ttd_admin);
 
 const kelayakan = computed(() => CheckIfUploaded());
-
+const KeteranganSPV = ref('');
 const LoadTTD = ref(false);
 const pdfRef = ref(null);
 const DisableButton = ref(false);
+const ToggleKet = ref(false);
 console.log(props.report.status);
 
 const CheckIfUploaded = () => {
@@ -55,11 +56,17 @@ const handleReport = async (status, ttd) => {
     try {
         const TTDSPV = await ConvertTtdToImage(ttd);
         console.log(TTDSPV);
-        const response = await ManageReport(props.report.id, status, TTDSPV);
+        if (KeteranganSPV.value === null) {
+            KeteranganSPV.value = "Tidak Ada";
+        }
+        console.log("CTTSPV", KeteranganSPV.value);
+        const response = await ManageReport(props.report.id, status, TTDSPV, KeteranganSPV.value);
         if (response && response.success) {
             report.value.status = status;
             report.value.ttd_admin = response.image;
-            console.log('yg udah: ', props.report.ttd_admin);
+            report.value.keterangan_spv = response.data.keterangan_spv;
+            ToggleKet.value = false;
+            console.log('yg udah: ', report.value.keterangan_spv);
             DownloadPDF();
             console.log("Updated:", report.value);
         } else {
@@ -122,7 +129,8 @@ const downloadPDF = () => {
 
                             <!-- Center Section -->
                             <div class="text-center">
-                                <p class="text-md md:text-xl lg:text-2xl font-bold">Checklist P2H <br>Kendaraan Sarana</p>
+                                <p class="text-md md:text-xl lg:text-2xl font-bold">Checklist P2H <br>Kendaraan Sarana
+                                </p>
                             </div>
 
                             <!-- Right Section -->
@@ -188,9 +196,22 @@ const downloadPDF = () => {
                                 </div>
                                 <div>
                                     <div class="my-5">
-                                        <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">Keterangan
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">
+                                            Keterangan
                                         </h3>
                                         <p class="text-gray-900 dark:text-gray-100">{{ report.keterangan }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="my-5">
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-1 dark:text-gray-200">
+                                            Keterangan/Catatan SPV
+                                        </h3>
+                                        <input v-if="IsAdmin && !report.keterangan_spv" v-model="KeteranganSPV"
+                                            type="text" placeholder="Keterangan/Catatan SPV"
+                                            class="w-full px-4 py-3   rounded-lg shadow-sm focus:ring-4  focus:outline-none transition group-hover:shadow-md" />
+                                        <p v-else class="text-gray-900 dark:text-gray-100">{{ report.keterangan_spv }}
                                         </p>
                                     </div>
                                 </div>
