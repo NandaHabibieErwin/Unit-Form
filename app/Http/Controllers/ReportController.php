@@ -123,7 +123,7 @@ class ReportController extends Controller
                         'Buggy_Whip' => $data['Buggy_Whip'] ?? '',
                         'Radio_Komunikasi' => $data['Radio_Komunikasi'] ?? '',
                         'Sistem_4wd' => $data['Sistem_4wd'] ?? '',
-                        'Keterangan' => $data['Keterangan'] ?? '',
+                        'Keterangan' => $data['keterangan'] ?? '',
                         'keterangan_spv' => $data['keterangan_spv'] ?? '',
                         'Telah beristirahat sebelum awal shift selama' => $data['istirahat'] ?? '',
                         'Tidak mengonsumsi obat-obatan yang dapat menyebabkan ngantuk dalam periode 8 jam sebelum mengemudi' => $data['obat'] ?? '',
