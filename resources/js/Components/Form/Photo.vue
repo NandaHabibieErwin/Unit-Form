@@ -36,8 +36,7 @@ const emit = defineEmits(['update:FotoKiri', 'update:FotoKanan', 'update:Keteran
       label="Keterangan"
       :model-value="props.Keterangan"
     @input="emit('update:Keterangan', $event)"
-      prefix-icon="avatarMan"
-      validation="required"
+      prefix-icon="avatarMan"      
     />
 
 </template>
